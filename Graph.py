@@ -1,12 +1,12 @@
 import sys
 
-import Node
+from Node import Node
 
 class Graph(object):
-	def __init__(self, nodes, initial_graph):
+	def __init__(self, graph):
 		self.nodes = {}
-		self.create_connections(initial_graph)
-		self.graph = self.create_graph(nodes, initial_graph)
+		self.create_connections(graph)
+		self.graph = self.create_graph(self.nodes.items())
 	
 	def create_connections(self, graph):
 
@@ -30,24 +30,13 @@ class Graph(object):
 			else:
 				self.nodes[station2].update_node(station1, line, weight)
 
-
-	def create_graph(self, nodes, initial_graph):
+	def create_graph(self, nodes):
 		graph = {}
-		for node in nodes: graph[node] = {}	
-		graph.update(initial_graph)
-
-		for node, edges in graph.items():
-			for nb_node, weight in edges.items():
-				if not graph[nb_node].get(node, False): graph[nb_node][node] = weight
+		for node in nodes: 
+			print(node)
+			graph.update({node: node[1].stations()})
 		return graph
 	
-	def adjacent_nodes(self, node):
-		neighbours = []
-	
-		for nb in self.nodes:
-			if self.graph[node].get(nb, False): neighbours.append(nb)
+	def adjacent_nodes(self, node): return self.graph[node].stations().keys()
 
-		return neighbours
-
-	def num_nodes(self): return self.nodes
-	def weight(self, node1, node2): return self.graph[node1][node2]
+	def total_nodes(self): return len(self.nodes)

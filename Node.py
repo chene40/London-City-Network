@@ -6,7 +6,7 @@ class Node(object):
 		self.connected_stations = {}
 	
 	def update_node(self, connected_station, line, weight):
-		entry = {connected_station: {line, weight}}
+		entry = {connected_station: [line, weight]}
 		self.connected_stations.update(entry)
 	
 	def set_coordinates(self, lat, long): self.coords = [lat, long]
