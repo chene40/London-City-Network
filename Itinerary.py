@@ -1,5 +1,7 @@
 import csv
 
+import heapq
+
 from sys import stdin, stdout
 import sys
 
@@ -10,39 +12,28 @@ class Itinerary:
 		return 'Object Initialized'
 	
 	def D_ShortestPath(self, graph, station1, station2):
-		# Dijkstra's algorithm
-		# https://www.udacity.com/blog/2021/10/implementing-dijkstras-algorithm-in-python.html
-		# Convert to make use of PQ
-
 		# Each station is represented as a node
 		# Each line is represented as an edge
 		# The weight of the edge is determined by the time 
 
-		unvisited_nodes = list(graph.get_nodes())		# all nodes initially are unvisited
-		shortest_path = {}								# shortest path to each station
-		prev_nodes = {}									# current best path to each station
+		n = len(graph)
+		visited = [False for x in range(n)]
+		dist = [sys.maxsize for x in range(n)]
+		dist[station1] = 0
+		
+		pq = [(0, station1)]
 
-		starting_distance = sys.maxsize
-		for node in unvisited_nodes: shortest_path[node] = starting_distance
-		shortest_path[station1] = 0
+		while len(pq) > 0:
+			weight, station = heapq.heappop(pq)		# discard weight for initial node
+			if visited[station]: continue
+			visited[station] = True
 
-		while unvisited_nodes:
-			cur_min_node = None
-			for node in unvisited_nodes:
-				if cur_min_node == None: cur_min_node = node
-				elif shortest_path[node] < shortest_path[cur_min_node]: cur_min_node = node
-			
-			adjacent_nodes = graph.adjacent_nodes(cur_min_node)
+			for v, l in graph[station]:
+				if dist[station] + l < dist[v]:
+					dist[v] = dist[station] + l
+					heapq.heappush(pq, (dist[v], v))
 
-			for nb in adjacent_nodes:
-				temp_weight = shortest_path[cur_min_node] + graph.weight(cur_min_node, nb)
-				if temp_weight < shortest_path[nb]: 
-					shortest_path[nb] = temp_weight
-					prev_nodes[nb] = cur_min_node
-				
-			unvisited_nodes.remove(cur_min_node)
-
-		return prev_nodes, shortest_path
+		return dist
 
 	def A_ShortestPath(self, source, target):
 		# A* algorithm
