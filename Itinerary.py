@@ -35,9 +35,50 @@ class Itinerary:
 
 		return dist
 
-	def A_ShortestPath(self, source, target):
+	def A_ShortestPath(self, graph, start, stop):
 		# A* algorithm
-		return 'A* Algorithm'
+		open_set = set(start)
+		closed_set = set()
+		g = {}
+		parents = {}
+		g[start] = 0
+		parents[start] = start
+		while len(open_set) > 0:
+			n = None
+			for v in open_set:
+				if n == None or g[v] + graph.weight(start,v) < g[n] + graph.weight(start,n):
+					n = v
+			if n == stop or graph.nodes[n] == None:
+				pass
+			else:
+				for (m, weight) in graph.adjacent_nodes[n]:
+					if m not in open_set and m not in closed_set:
+						open_set.add(m)
+						parents[m] = n
+						g[m] = g[n] + weight
+					else:
+						if g[m] > g[n] + weight:
+							g[m] = g[n] + weight
+							parents[m] = n
+							if m in closed_set:
+								closed_set.remove(m)
+								open_set.add(m)
+			if n == None:
+				print('Path does not exist!')
+				return None
+			if n == stop:
+				path = []
+				while parents[n] != n:
+					path.append(n)
+					n = parents[n]
+				path.append(start)
+				path.reverse()
+				print('Path found: {}'.format(path))
+				return path
+			open_set.remove(n)
+			closed_set.add(n)
+		print('Path does not exist!')
+		return None
 
 	def main(input_stream, output_stream):
 
