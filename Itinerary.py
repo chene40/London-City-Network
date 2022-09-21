@@ -7,7 +7,8 @@ from Parser import Parser
 from Graph import Graph
 
 class Itinerary:
-	def __init__(self):
+	def __init__(self, graph, station1, station2):
+		
 		with open('./_dataset/london.connections.csv', newline='') as london_connections:
 			print(london_connections)
 		return 'Object Initialized'
@@ -38,59 +39,73 @@ class Itinerary:
 
 	def A_ShortestPath(self, graph, start, stop):
 		# A* algorithm
-		open_set = set(start)
-		closed_set = set()
-		g = {}
-		parents = {}
+		g = {} #Actual movement cost from start to current station
+		f = {} #Estimated movement cost from start to end through this station
+
 		g[start] = 0
-		parents[start] = start
-		while len(open_set) > 0:
-			n = None
-			for v in open_set:
-				if n == None or g[v] + graph.weight(start,v) < g[n] + graph.weight(start,n):
-					n = v
-			if n == stop or graph.nodes[n] == None:
-				pass
-			else:
-				for (m, weight) in graph.adjacent_nodes[n]:
-					if m not in open_set and m not in closed_set:
-						open_set.add(m)
-						parents[m] = n
-						g[m] = g[n] + weight
-					else:
-						if g[m] > g[n] + weight:
-							g[m] = g[n] + weight
-							parents[m] = n
-							if m in closed_set:
-								closed_set.remove(m)
-								open_set.add(m)
-			if n == None:
-				print('Path does not exist!')
-				return None
-			if n == stop:
-				path = []
-				while parents[n] != n:
-					path.append(n)
-					n = parents[n]
-				path.append(start)
+		f[start] = graph.heuristic(start, stop)
+
+		closed = set()			#set for visited stations
+		opened = set([start])	#set for unvisited stations
+		adjacency = {}
+
+		while len(opened) > 0:	#get the vertex from the open list with lowest f score
+			current = None
+			currentF = None
+			for position in opened:
+				if current is None or f[position] < currentF:
+					currentF = f[position]
+					current = position
+
+			if current == stop:	#check if goal is reached
+				path = [current]
+				while current in adjacency:
+					current = adjacency[current]
+					path.append(current)
 				path.reverse()
-				print('Path found: {}'.format(path))
-				return path
-			open_set.remove(n)
-			closed_set.add(n)
-		print('Path does not exist!')
-		return None
+				return path, f[stop]
+
+			#Mark vertices as closed
+			opened.remove(current)
+			closed.add(current)
+
+
+			#Update neighbour scores
+			for neighbour in graph.adjacent_nodes(current):
+				if neighbour in closed:
+					continue
+				newG = g[current] + graph.heuristic(current, neighbour)
+
+				if neighbour not in opened:
+					opened.add(neighbour)
+				elif newG >= g[neighbour]:
+					continue
+
+				adjacency[neighbour] = current
+				g[neighbour] = newG
+				h = graph.heuristic(neighbour, stop)
+				f[neighbour] = g[neighbour] + h
+
+		raise RuntimeError("A* did not find a solution")
 
 	def main(input_stream, output_stream):
 
 		parsed_file = Parser()
-		#lines = parsed_file.get_lines()
+		lines = parsed_file.get_lines()
 		connections = parsed_file.get_connections()
-		#stations = parsed_file.get_stations()
-
+		stations = parsed_file.get_stations()
 		graph = Graph(connections)
-		print(graph.total_nodes())
+		
+		#print(graph.total_nodes())
 		#print(graph.adjacent_nodes(130))
+		
 	
 	if __name__ == "__main__":
 		main(stdin, stdout)
+		parsed_file = Parser()
+		connections = parsed_file.get_connections()
+		graph = Graph(connections)
+
+
+		#print(graph.total_nodes())
+		#A_ShortestPath(None, graph, 11, 163)

@@ -1,4 +1,6 @@
+from cmath import sqrt
 import sys
+import math
 
 from Node import Node
 
@@ -40,3 +42,10 @@ class Graph(object):
 	def adjacent_nodes(self, node): return self.graph[node].stations().keys()
 
 	def total_nodes(self): return len(self.nodes)
+
+	def heuristic(self, start, goal):
+		startNode = Node(start)
+		goalNode = Node(goal)
+		distX = abs(startNode.coordinates[0] - goalNode.coordinates[0])
+		distY = abs(startNode.coordinates[1] - goalNode.coordinates[1])
+		return (sqrt(distX**2 + distY**2))
