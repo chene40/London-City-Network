@@ -8,9 +8,10 @@ class Node(object):
 	def __init__(self, station1):
 		self.station_name = station1
 		self.connected_stations = {}
-		for node in stations:
-			if self.station_name == node[0]:
-				self.coordinates = [node[1], node[2]]
+		for entry in stations:
+			if entry[0] == station1:
+				self.coordinates = [entry[1], entry[2]]
+				break
 	
 	def update_node(self, connected_station, line, weight):
 		entry = {connected_station: [line, weight]}

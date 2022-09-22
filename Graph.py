@@ -1,4 +1,4 @@
-from cmath import sqrt
+from math import sqrt
 import sys
 import math
 
@@ -8,7 +8,6 @@ class Graph(object):
 	def __init__(self, graph):
 		self.nodes = {}
 		self.create_connections(graph)
-		self.graph = self.create_graph(self.nodes.items())
 	
 	def create_connections(self, graph):
 
@@ -31,21 +30,31 @@ class Graph(object):
 				self.nodes.update({station2: connectionB})
 			else:
 				self.nodes[station2].update_node(station1, line, weight)
-
-	def create_graph(self, nodes):
-		graph = {}
-		for node in nodes: 
-			print(node)
-			graph.update({node: node[1].stations()})
-		return graph
 	
-	def adjacent_nodes(self, node): return self.graph[node].stations().keys()
+	def adjacent_nodes(self, node): return self.nodes[node].stations().keys()
 
 	def total_nodes(self): return len(self.nodes)
 
 	def heuristic(self, start, goal):
-		startNode = Node(start)
-		goalNode = Node(goal)
-		distX = abs(startNode.coordinates[0] - goalNode.coordinates[0])
-		distY = abs(startNode.coordinates[1] - goalNode.coordinates[1])
+		startNode = self.nodes[start]
+		goalNode = self.nodes[goal]
+		startNodeCoords = startNode.get_coordinates()
+		goalNodeCoords = goalNode.get_coordinates()
+
+		distX = abs(startNodeCoords[0] - goalNodeCoords[0])
+		distY = abs(startNodeCoords[1] - goalNodeCoords[1])
 		return (sqrt(distX**2 + distY**2))
+
+	def find_coordinates(self, stationID):
+		for node in self.nodes:
+			if node == stationID:
+				coordinates = self.nodes[stationID].get_coordinates()
+				return coordinates
+		return "Node not found"
+
+		""" for node in self.nodes:
+			print(node[4])
+			if node[0] == stationID:
+				return("Node Found")
+			else:
+				return ("No node found") """

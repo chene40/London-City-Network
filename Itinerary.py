@@ -7,10 +7,12 @@ from Parser import Parser
 from Graph import Graph
 
 class Itinerary:
-	def __init__(self, graph, station1, station2):
+	def __init__(self, graph):
 		
 		with open('./_dataset/london.connections.csv', newline='') as london_connections:
 			print(london_connections)
+		with open('./_dataset/london.stations.csv', newline='') as london_stations:
+			print(london_stations)
 		return 'Object Initialized'
 	
 	def D_ShortestPath(self, graph, station1, station2):
@@ -39,6 +41,7 @@ class Itinerary:
 
 	def A_ShortestPath(self, graph, start, stop):
 		# A* algorithm
+		
 		g = {} #Actual movement cost from start to current station
 		f = {} #Estimated movement cost from start to end through this station
 
@@ -89,23 +92,18 @@ class Itinerary:
 		raise RuntimeError("A* did not find a solution")
 
 	def main(input_stream, output_stream):
-
 		parsed_file = Parser()
 		lines = parsed_file.get_lines()
 		connections = parsed_file.get_connections()
 		stations = parsed_file.get_stations()
 		graph = Graph(connections)
-		
-		#print(graph.total_nodes())
-		#print(graph.adjacent_nodes(130))
-		
-	
+				
 	if __name__ == "__main__":
 		main(stdin, stdout)
 		parsed_file = Parser()
 		connections = parsed_file.get_connections()
+		stations = parsed_file.get_stations()
+		lines = parsed_file.get_lines()
 		graph = Graph(connections)
-
-
-		#print(graph.total_nodes())
-		#A_ShortestPath(None, graph, 11, 163)
+		print(A_ShortestPath(None, graph,157,2))
+		
