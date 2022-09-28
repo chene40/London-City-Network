@@ -1,7 +1,6 @@
 import heapq
 
-from sys import maxsize, stdin, stdout
-import sys
+from sys import maxsize
 
 from Parser import Parser
 from Graph import Graph
@@ -15,7 +14,7 @@ class Itinerary:
 		stationNames = graph.get_nodes_name()
 
 		visited = {node: False for node in stationNames}
-		dist = {node: sys.maxsize for node in stationNames}
+		dist = {node: maxsize for node in stationNames}
 		prevNode = {node: 0 for node in stationNames }
 
 		dist[station1] = 0
@@ -95,13 +94,8 @@ class Itinerary:
 				f[neighbour] = g[neighbour] + h
 
 		raise RuntimeError("A* did not find a solution")
-
-	def main(input_stream, output_stream):
-		parsed_file = Parser()
-		connections = parsed_file.get_connections()
 				
 	if __name__ == "__main__":
-		main(stdin, stdout)
 		parsed_file = Parser()
 		connections = parsed_file.get_connections()
 		stations = parsed_file.get_stations()
@@ -109,4 +103,3 @@ class Itinerary:
 		graph = Graph(connections)
 		print(A_ShortestPath(None, graph,157,2))
 		print(D_ShortestPath(None, graph, 1, 2))
-		

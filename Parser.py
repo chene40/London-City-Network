@@ -1,7 +1,5 @@
 import csv
 
-from sys import stdin, stdout
-
 class Parser(object):
 
 	def __init__(self):

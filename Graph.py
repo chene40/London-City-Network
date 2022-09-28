@@ -17,8 +17,6 @@ class Graph(object):
 			line = entry[2]
 			weight = entry[3]
 
-			if not isinstance(station1, int) or not isinstance(station2, int): continue
-
 			if not station1 in self.nodes:
 				connectionA = Node(station1)
 				connectionA.update_node(station2, line, weight)
