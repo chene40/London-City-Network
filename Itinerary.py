@@ -1,6 +1,6 @@
 import heapq
 
-from sys import stdin, stdout
+from sys import maxsize, stdin, stdout
 import sys
 
 from Parser import Parser
@@ -8,36 +8,41 @@ from Graph import Graph
 
 class Itinerary:
 	def __init__(self, graph):
-		
-		with open('./_dataset/london.connections.csv', newline='') as london_connections:
-			print(london_connections)
-		with open('./_dataset/london.stations.csv', newline='') as london_stations:
-			print(london_stations)
-		return 'Object Initialized'
+		self.graph = graph
 	
 	def D_ShortestPath(self, graph, station1, station2):
-		# Each station is represented as a node
-		# Each line is represented as an edge
-		# The weight of the edge is determined by the time 
 
-		n = len(graph)
-		visited = [False for x in range(n)]
-		dist = [sys.maxsize for x in range(n)]
+		stationNames = graph.get_nodes_name()
+
+		visited = {node: False for node in stationNames}
+		dist = {node: sys.maxsize for node in stationNames}
+		prevNode = {node: 0 for node in stationNames }
+
 		dist[station1] = 0
-		
+		prevNode[station1] = station1
 		pq = [(0, station1)]
 
 		while len(pq) > 0:
-			weight, station = heapq.heappop(pq)		# discard weight for initial node
+			weight, station = heapq.heappop(pq)
 			if visited[station]: continue
 			visited[station] = True
 
-			for v, l in graph[station]:
-				if dist[station] + l < dist[v]:
-					dist[v] = dist[station] + l
-					heapq.heappush(pq, (dist[v], v))
+			for adj_station in graph.adjacent_nodes(station):
+				distance = graph.get_distance(station, adj_station)
+				if dist[station] + distance < dist[adj_station]:
+					dist[adj_station] = dist[station] + distance
+					heapq.heappush(pq, (dist[adj_station], adj_station))
+					prevNode[adj_station] = station
 
-		return dist
+		shortest_path = []
+		lastStation = station2
+
+		while(lastStation != station1):
+			shortest_path.insert(0, lastStation)
+			lastStation = prevNode[lastStation]
+		shortest_path.insert(0, station1)
+		
+		return {'Path': shortest_path, 'Distance': dist[station2]}
 
 	def A_ShortestPath(self, graph, start, stop):
 		# A* algorithm
@@ -93,10 +98,7 @@ class Itinerary:
 
 	def main(input_stream, output_stream):
 		parsed_file = Parser()
-		lines = parsed_file.get_lines()
 		connections = parsed_file.get_connections()
-		stations = parsed_file.get_stations()
-		graph = Graph(connections)
 				
 	if __name__ == "__main__":
 		main(stdin, stdout)
@@ -106,4 +108,5 @@ class Itinerary:
 		lines = parsed_file.get_lines()
 		graph = Graph(connections)
 		print(A_ShortestPath(None, graph,157,2))
+		print(D_ShortestPath(None, graph, 1, 2))
 		

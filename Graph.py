@@ -17,6 +17,8 @@ class Graph(object):
 			line = entry[2]
 			weight = entry[3]
 
+			if not isinstance(station1, int) or not isinstance(station2, int): continue
+
 			if not station1 in self.nodes:
 				connectionA = Node(station1)
 				connectionA.update_node(station2, line, weight)
@@ -33,8 +35,18 @@ class Graph(object):
 	
 	def adjacent_nodes(self, node): return self.nodes[node].stations().keys()
 
-	def total_nodes(self): return len(self.nodes)
+	def total_nodes(self): return len(self.get_nodes())
 
+	def get_nodes(self): return self.nodes
+
+	def get_nodes_name(self): return [node for node in self.nodes if isinstance(node, int)]
+
+	def get_distance(self, station1, station2):
+		s1 = self.nodes[station1]
+		s2 = self.nodes[station2]
+
+		return s2.stations()[s1.get_name()][1]
+		
 	def heuristic(self, start, goal):
 		startNode = self.nodes[start]
 		goalNode = self.nodes[goal]
@@ -51,10 +63,3 @@ class Graph(object):
 				coordinates = self.nodes[stationID].get_coordinates()
 				return coordinates
 		return "Node not found"
-
-		""" for node in self.nodes:
-			print(node[4])
-			if node[0] == stationID:
-				return("Node Found")
-			else:
-				return ("No node found") """
