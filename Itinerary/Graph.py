@@ -1,7 +1,7 @@
+# Python Library
 from math import sqrt
-import sys
-import math
 
+# Local Files
 from Node import Node
 
 class Graph(object):
@@ -10,7 +10,6 @@ class Graph(object):
 		self.create_connections(graph)
 	
 	def create_connections(self, graph):
-
 		for entry in graph:
 			station1 = entry[0]
 			station2 = entry[1]
@@ -32,8 +31,6 @@ class Graph(object):
 				self.nodes[station2].update_node(station1, line, weight)
 	
 	def adjacent_nodes(self, node): return self.nodes[node].stations().keys()
-
-	def total_nodes(self): return len(self.get_nodes())
 
 	def get_nodes(self): return self.nodes
 

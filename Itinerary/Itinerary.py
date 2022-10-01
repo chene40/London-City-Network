@@ -1,7 +1,8 @@
+# Python Library
 import heapq
-
 from sys import maxsize
 
+# Local Files
 from Parser import Parser
 from Graph import Graph
 
@@ -9,9 +10,8 @@ class Itinerary:
 	def __init__(self, graph):
 		self.graph = graph
 	
-	def D_ShortestPath(self, graph, station1, station2):
-
-		stationNames = graph.get_nodes_name()
+	def D_ShortestPath(self, station1, station2):
+		stationNames = self.graph.get_nodes_name()
 
 		visited = {node: False for node in stationNames}
 		dist = {node: maxsize for node in stationNames}
@@ -26,8 +26,8 @@ class Itinerary:
 			if visited[station]: continue
 			visited[station] = True
 
-			for adj_station in graph.adjacent_nodes(station):
-				distance = graph.get_distance(station, adj_station)
+			for adj_station in self.graph.adjacent_nodes(station):
+				distance = self.graph.get_distance(station, adj_station)
 				if dist[station] + distance < dist[adj_station]:
 					dist[adj_station] = dist[station] + distance
 					heapq.heappush(pq, (dist[adj_station], adj_station))
@@ -43,14 +43,14 @@ class Itinerary:
 		
 		return {'Path': shortest_path, 'Distance': dist[station2]}
 
-	def A_ShortestPath(self, graph, start, stop):
+	def A_ShortestPath(self, start, stop):
 		# A* algorithm
 		
 		g = {} #Actual movement cost from start to current station
 		f = {} #Estimated movement cost from start to end through this station
 
 		g[start] = 0
-		f[start] = graph.heuristic(start, stop)
+		f[start] = self.graph.heuristic(start, stop)
 
 		closed = set()			#set for visited stations
 		opened = set([start])	#set for unvisited stations
@@ -70,18 +70,17 @@ class Itinerary:
 					current = adjacency[current]
 					path.append(current)
 				path.reverse()
-				return path, f[stop]
+				return {'Path': path, 'Distance': f[stop]}
 
 			#Mark vertices as closed
 			opened.remove(current)
 			closed.add(current)
 
-
 			#Update neighbour scores
-			for neighbour in graph.adjacent_nodes(current):
+			for neighbour in self.graph.adjacent_nodes(current):
 				if neighbour in closed:
 					continue
-				newG = g[current] + graph.heuristic(current, neighbour)
+				newG = g[current] + self.graph.heuristic(current, neighbour)
 
 				if neighbour not in opened:
 					opened.add(neighbour)
@@ -90,16 +89,21 @@ class Itinerary:
 
 				adjacency[neighbour] = current
 				g[neighbour] = newG
-				h = graph.heuristic(neighbour, stop)
+				h = self.graph.heuristic(neighbour, stop)
 				f[neighbour] = g[neighbour] + h
 
 		raise RuntimeError("A* did not find a solution")
+
+def main():
+	parsed_file = Parser()
+	connections = parsed_file.get_connections()
+	# stations = parsed_file.get_stations()
+	# lines = parsed_file.get_lines()
+	graph = Graph(connections)
+
+	itinerary = Itinerary(graph)
+	print(itinerary.A_ShortestPath(157, 2))
+	print(itinerary.D_ShortestPath(1, 2))
 				
-	if __name__ == "__main__":
-		parsed_file = Parser()
-		connections = parsed_file.get_connections()
-		stations = parsed_file.get_stations()
-		lines = parsed_file.get_lines()
-		graph = Graph(connections)
-		print(A_ShortestPath(None, graph,157,2))
-		print(D_ShortestPath(None, graph, 1, 2))
+if __name__ == "__main__":
+	main()
