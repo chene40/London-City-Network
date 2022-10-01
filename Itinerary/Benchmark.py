@@ -43,7 +43,7 @@ class Benchmark:
 
 		return (A_end, D_end)
 
-	def test(self, numTests):
+	def test(self, numTests: int):
 
 		A_WallTime = 0; D_WallTime = 0
 		A_CPUTime = 0; D_CPUTime = 0

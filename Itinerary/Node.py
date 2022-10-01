@@ -8,16 +8,16 @@ parsed_file = Parser()
 stations = parsed_file.get_stations()
 
 class Node(object):
-	def __init__(self, stationId):
+	def __init__(self, stationId: int):
 		self.station_name = stationId
 		self.connected_stations = {}
-		self.set_coords(stationId)
+		self.set_coordinates(stationId)
 	
-	def update_node(self, connected_station, line, weight):
+	def update_node(self, connected_station: int, line: int, weight: int):
 		entry = {connected_station: [line, weight]}
 		self.connected_stations.update(entry)
 
-	def set_coords(self, stationId): 
+	def set_coordinates(self, stationId: int): 
 		for entry in stations:
 			if entry[0] == stationId:
 				self.coordinates = [entry[1], entry[2]]

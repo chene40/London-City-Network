@@ -10,7 +10,7 @@ class Itinerary:
 	def __init__(self, graph):
 		self.graph = graph
 	
-	def D_ShortestPath(self, station1, station2):
+	def D_ShortestPath(self, station1: int, station2: int):
 		stationNames = self.graph.get_nodes_name()
 
 		visited = {node: False for node in stationNames}
@@ -43,7 +43,7 @@ class Itinerary:
 		
 		return {'Path': shortest_path, 'Distance': dist[station2]}
 
-	def A_ShortestPath(self, start, stop):
+	def A_ShortestPath(self, start: int, stop: int):
 		# A* algorithm
 		
 		g = {} #Actual movement cost from start to current station
