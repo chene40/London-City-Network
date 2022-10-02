@@ -36,7 +36,7 @@ class UrbanismPlanning:
         return len(self.zones.keys())
 
     def get_stations_in_zone(self, zone: int):
-        print(f"The stations in zone {zone} are {self.zones.get(zone)}.")
+        # print(f"The stations in zone {zone} are {self.zones.get(zone)}.")
         return self.zones.get(zone)
 
     def islandDFS(self, temp: list, node: int, visited: list, nodeZone: float):

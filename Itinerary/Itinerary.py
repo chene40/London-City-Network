@@ -107,11 +107,19 @@ def main():
     graph = Graph(connections)
 
     itinerary = Itinerary(graph)
-    print(itinerary.A_ShortestPath(157, 2))
-    print(itinerary.D_ShortestPath(2, 3))
-    print(itinerary.D_ShortestPath(3, 4))
-    print(itinerary.D_ShortestPath(4, 1))
-    print(itinerary.D_ShortestPath(5, 1))
+    print("A Star Algorithm")
+    print("--------------------------------------")
+    print(itinerary.A_ShortestPath(42, 53))
+    print(itinerary.A_ShortestPath(21, 32))
+    print(itinerary.A_ShortestPath(47, 14))
+    print(itinerary.A_ShortestPath(93, 12))
+
+    print("Dijkstra's Algorithm")
+    print("--------------------------------------")
+    print(itinerary.D_ShortestPath(42, 53))
+    print(itinerary.D_ShortestPath(21, 32))
+    print(itinerary.D_ShortestPath(47, 14))
+    print(itinerary.D_ShortestPath(93, 12))
 
 
 if __name__ == "__main__":

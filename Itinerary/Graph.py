@@ -9,7 +9,6 @@ class Graph(object):
     def __init__(self, graph):
         self.nodes = {}
         self.create_connections(graph)
-        # print(self.nodes)
 
     def create_connections(self, graph):
         for entry in graph:
@@ -22,17 +21,17 @@ class Graph(object):
                 continue
             if station1 not in self.nodes:
                 connectionA = Node(station1)
-                connectionA.update_node(station2, line, weight)
+                connectionA.update(station2, line, weight)
                 self.nodes.update({station1: connectionA})
             else:
-                self.nodes[station1].update_node(station2, line, weight)
+                self.nodes[station1].update(station2, line, weight)
 
             if station2 not in self.nodes:
                 connectionB = Node(station2)
-                connectionB.update_node(station1, line, weight)
+                connectionB.update(station1, line, weight)
                 self.nodes.update({station2: connectionB})
             else:
-                self.nodes[station2].update_node(station1, line, weight)
+                self.nodes[station2].update(station1, line, weight)
 
     def adjacent_nodes(self, node: int):
         return self.nodes[node].stations().keys()
@@ -44,6 +43,9 @@ class Graph(object):
         return [node for node in self.nodes if isinstance(node, int)]
 
     def get_distance(self, station1: int, station2: int):
+
+        if station1 == station2:
+            return 0
         s1 = self.nodes[station1]
         s2 = self.nodes[station2]
 

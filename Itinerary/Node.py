@@ -11,7 +11,7 @@ class Node(object):
         self.connected_stations = {}
         self.set_coordinates(stationId)
 
-    def update_node(self, connected_station: int, line: int, weight: int):
+    def update(self, connected_station: int, line: int, weight: int):
         entry = {connected_station: [line, weight]}
         self.connected_stations.update(entry)
 
@@ -20,6 +20,10 @@ class Node(object):
             if entry[0] == stationId:
                 self.coordinates = [entry[1], entry[2]]
                 break
+
+    def remove(self, station: int):
+        if station in self.connected_stations.keys():
+            self.connected_stations.pop(station)
 
     def get_coordinates(self):
         return self.coordinates
