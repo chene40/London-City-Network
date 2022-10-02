@@ -1,6 +1,7 @@
 import sys
 
-sys.path.insert(0, "./Itinerary")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+
 from Node import Node  # noqa: E402
 
 
@@ -38,8 +39,3 @@ def test_stations():
 
     node.remove(34)
     assert node.stations() == {}
-
-
-test_name()
-test_coordinates()
-test_stations()

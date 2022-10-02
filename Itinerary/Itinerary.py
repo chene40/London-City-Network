@@ -2,9 +2,14 @@
 import heapq
 from sys import maxsize
 
+import sys
+
+sys.path.insert(0, "./Itinerary/Utils")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+
 # Local Files
-from Parser import Parser
-from Graph import Graph
+from Parser import Parser  # noqa: E402
+from Graph import Graph  # noqa: E402
 
 
 class Itinerary:

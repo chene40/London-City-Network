@@ -1,6 +1,9 @@
 import sys
 
 sys.path.insert(0, "./Itinerary")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+
 from SubwayPatrol import SubwayPatrol  # noqa: E402
 from Parser import Parser  # noqa: E402
 from Graph import Graph  # noqa: E402
@@ -13,7 +16,7 @@ itinerary = Itinerary(newGraph)
 patrol = SubwayPatrol(newGraph, itinerary)
 
 
-def test():
+def test_subwaypatrol():
     result1 = patrol.ShortestPath([1, 2, 3, 4, 5], 2)
     result2 = patrol.ShortestPath([1, 2, 3, 4, 5, 6], 2)
     result3 = patrol.ShortestPath([1, 2, 3, 4, 5], 5)
@@ -26,6 +29,3 @@ def test():
 
     assert result3.get("Path") == [5, 1, 2, 3, 4]
     assert result3.get("Distance") == 59
-
-
-test()

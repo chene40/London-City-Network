@@ -1,6 +1,11 @@
 # Python Library
 import random
 import time
+import sys
+
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+sys.path.insert(0, "./Itinerary")
 
 # Local Files
 from Itinerary import Itinerary

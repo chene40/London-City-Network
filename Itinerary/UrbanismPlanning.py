@@ -1,5 +1,10 @@
-from Parser import Parser
-from Graph import Graph
+import sys
+
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+
+from Parser import Parser  # noqa: E402
+from Graph import Graph  # noqa: E402
 
 
 class UrbanismPlanning:

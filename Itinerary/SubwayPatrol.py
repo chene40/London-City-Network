@@ -1,8 +1,14 @@
-from Parser import Parser
-from Graph import Graph
 from sys import maxsize
 from itertools import permutations
-from Itinerary import Itinerary
+import sys
+
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+sys.path.insert(0, "./Itinerary")
+
+from Itinerary import Itinerary  # noqa: E402
+from Parser import Parser  # noqa: E402
+from Graph import Graph  # noqa: E402
 
 
 class SubwayPatrol:

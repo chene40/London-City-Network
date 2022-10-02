@@ -1,6 +1,9 @@
 import sys
 
 sys.path.insert(0, "./Itinerary")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+
 from Itinerary import Itinerary  # noqa: E402
 from Parser import Parser  # noqa: E402
 from Graph import Graph  # noqa: E402
@@ -50,7 +53,3 @@ def test_dijkstra():
     result3reverse = itinerary.D_ShortestPath(1, 5)
     assert result3reverse.get("Path") == [1, 73, 182, 194, 5]
     assert result3reverse.get("Distance") == 10
-
-
-test_dijkstra()
-test_A()

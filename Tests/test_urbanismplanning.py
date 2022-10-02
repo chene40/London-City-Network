@@ -1,6 +1,9 @@
 import sys
 
 sys.path.insert(0, "./Itinerary")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+
 from UrbanismPlanning import UrbanismPlanning  # noqa: E402
 from Parser import Parser  # noqa: E402
 from Graph import Graph  # noqa: E402
@@ -123,11 +126,3 @@ def test_connected_zones():
     assert UB.connected_zones(8) == [9.0, 7.0]
     assert UB.connected_zones(9) == [10.0, 8.0]
     assert UB.connected_zones(10) == [9.0]
-
-
-test_num_zones()
-test_get_zones()
-test_get_stations_in_zone()
-test_get_islands_in_zone()
-test_zone_of()
-test_connected_zones()

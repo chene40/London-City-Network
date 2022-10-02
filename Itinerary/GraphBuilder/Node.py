@@ -1,5 +1,10 @@
+import sys
+
+sys.path.insert(0, "./Itinerary/Utils")
+
 # Local Files
 from Parser import Parser
+
 
 parsed_file = Parser()
 stations = parsed_file.get_stations()

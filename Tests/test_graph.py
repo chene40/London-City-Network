@@ -1,6 +1,8 @@
 import sys
 
-sys.path.insert(0, "./Itinerary")
+sys.path.insert(0, "./Itinerary/GraphBuilder")
+sys.path.insert(0, "./Itinerary/Utils")
+
 from Graph import Graph  # noqa: E402
 from Parser import Parser  # noqa: E402
 
@@ -31,8 +33,3 @@ def test_find_coords():
     assert graph.find_coordinates(150) == [51.5139, -0.2172]
     assert graph.find_coordinates(200) == [51.5313, 0.0172]
     assert graph.find_coordinates(250) == [51.5146, -0.0973]
-
-
-test_adjacent_nodes()
-test_distance()
-test_find_coords()
