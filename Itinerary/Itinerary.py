@@ -1,6 +1,7 @@
 # Python Library
 import heapq
 from sys import maxsize
+from tokenize import String
 
 # Local Files
 from Parser import Parser
@@ -64,7 +65,8 @@ class Itinerary:
 					currentF = f[position]
 					current = position
 
-			if current == stop:	#check if goal is reached
+			#check if goal is reached
+			if current == stop:	
 				path = [current]
 				while current in adjacency:
 					current = adjacency[current]
@@ -103,7 +105,10 @@ def main():
 
 	itinerary = Itinerary(graph)
 	print(itinerary.A_ShortestPath(157, 2))
-	print(itinerary.D_ShortestPath(1, 2))
-				
+	print(itinerary.D_ShortestPath(2, 3))
+	print(itinerary.D_ShortestPath(3, 4))
+	print(itinerary.D_ShortestPath(4, 1))
+	print(itinerary.D_ShortestPath(5,1))
+
 if __name__ == "__main__":
 	main()
